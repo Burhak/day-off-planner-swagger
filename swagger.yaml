@@ -69,6 +69,12 @@ paths:
           description: invalid username/password supplied
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     UserApiModel:
       type: object
@@ -125,3 +131,6 @@ components:
           type: string
         user:
           $ref: '#/components/schemas/UserApiModel'
+
+security:
+  - bearerAuth: []
