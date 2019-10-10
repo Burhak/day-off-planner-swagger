@@ -74,6 +74,12 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    oAuthNoScopes:
+      type: oauth2
+      flows: 
+        implicit: 
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes: {}
 
   schemas:
     UserApiModel:
@@ -134,3 +140,4 @@ components:
 
 security:
   - bearerAuth: []
+  - oAuthNoScopes: []
