@@ -74,7 +74,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    oAuthNoScopes:
+    oAuthNoScopes: # To generate Authorization header in Angular
       type: oauth2
       flows: 
         implicit: 
@@ -140,4 +140,4 @@ components:
 
 security:
   - bearerAuth: []
-  - oAuthNoScopes: []
+  - oAuthNoScopes: [] # To generate Authorization header in Angular
