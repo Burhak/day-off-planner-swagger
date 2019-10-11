@@ -94,13 +94,9 @@ components:
           type: string
         email:
           type: string
-        roles:
-          type: array
-          items:
-            type: string
-            enum:
-            - USER
-            - ADMIN
+        admin:
+          type: boolean
+          default: false
 
     UserCreateApiModel:
       type: object
