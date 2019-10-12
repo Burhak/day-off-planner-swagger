@@ -10,36 +10,99 @@ info:
   version: '1.0.0'
 
 paths:
-  /admin/createUser:
+  /admin/user:
     post:
       summary: Create new user
       operationId: createUser
+      tags:
+        - admin
       requestBody:
         required: true
+        description: Name and email of new user
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserCreateApiModel'
-        description: Name and email of new user
       responses:
         '200':
-          description: successful operation
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserApiModel'
         '403':
-          description: creating user is not admin
+          description: Not an admin
         '409':
-          description: given email already exists
+          description: Given email already exists
+
+  /admin/user/{id}:
+    delete:
+      summary: Delete existing user
+      operationId: deleteUser
+      tags:
+        - admin
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Not an admin
+        '404':
+          description: Not found
+
+  /user/resetPassword:
+    post:
+      summary: Reset user's password
+      operationId: resetPassword
+      tags:
+        - user
+      requestBody:
+        required: true
+        description: User's email
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetApiModel'
+      responses:
+        '202':
+          description: Accepted
+        '404':
+          description: Not found
+
+  /user/changePassword:
+    post:
+      summary: Change user's password
+      operationId: changePassword
+      tags:
+        - user
+      requestBody:
+        required: true
+        description: User's old and new password
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChangeApiModel'
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Invalid old password supplied
 
   /user/getAll:
     get:
       summary: Get all users
       operationId: getAllUsers
+      tags:
+        - user
       responses:
         '200':
-          description: successful operation
+          description: OK
           content:
             application/json:
               schema:
@@ -47,26 +110,49 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserApiModel'
 
+  /user/{id}:
+    get:
+      summary: Get user by id
+      operationId: getUserById
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApiModel'
+
   /login:
     post:
       summary: Log user into the system
       operationId: loginUser
+      tags:
+        - auth
       requestBody:
         required: true
+        description: Email and password for login
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserLoginApiModel'
-        description: Email and password for login
       responses:
         '200':
-          description: successful operation
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserLoginResponseApiModel'
         '403':
-          description: invalid username/password supplied
+          description: Invalid email or password supplied
 
 components:
   securitySchemes:
@@ -76,14 +162,20 @@ components:
       bearerFormat: JWT
     oAuthNoScopes: # To generate Authorization header in Angular
       type: oauth2
-      flows: 
-        implicit: 
+      flows:
+        implicit:
           authorizationUrl: https://api.example.com/oauth2/authorize
           scopes: {}
 
   schemas:
     UserApiModel:
       type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - admin
       properties:
         id:
           type: integer
@@ -94,6 +186,9 @@ components:
           type: string
         email:
           type: string
+        supervisor:
+          type: integer
+          format: int64
         admin:
           type: boolean
           default: false
@@ -111,6 +206,9 @@ components:
           type: string
         email:
           type: string
+        supervisor:
+          type: integer
+          format: int64
         admin:
           type: boolean
           default: false
@@ -125,14 +223,36 @@ components:
           type: string
         password:
           type: string
-          
+
     UserLoginResponseApiModel:
       type: object
+      required:
+        - token
+        - user
       properties:
         token:
           type: string
         user:
           $ref: '#/components/schemas/UserApiModel'
+
+    PasswordResetApiModel:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+
+    PasswordChangeApiModel:
+      type: object
+      required:
+        - oldPassword
+        - newPassword
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
 
 security:
   - bearerAuth: []
