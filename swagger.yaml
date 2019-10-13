@@ -88,15 +88,93 @@ paths:
         '404':
           description: Not found
 
+  /admin/leaveType:
+    post:
+      summary: Create new leave type
+      operationId: createLeaveType
+      tags:
+        - admin
+      requestBody:
+        required: true
+        description: Object of leave type to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveTypeCreateApiModel'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveTypeApiModel'
+        '403':
+          description: Not an admin
+        '409':
+          description: Given name already exists
+
+  /admin/leaveType/{id}:
+    delete:
+      summary: Delete existing leave type
+      operationId: deleteLeaveType
+      tags:
+        - admin
+      parameters:
+        - in: path
+          name: id
+          description: ID of the leave type to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Not an admin
+        '404':
+          description: Not found
+    put:
+      summary: Update existing leave type
+      operationId: updateLeaveType
+      tags:
+        - admin
+      parameters:
+        - in: path
+          name: id
+          description: ID of the leave type to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        description: Object of leave type to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveTypeCreateApiModel'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveTypeApiModel'
+        '403':
+          description: Not an admin
+        '404':
+          description: Not found
+
   /user/resetPassword:
     post:
-      summary: Reset user's password
+      summary: Reset user password
       operationId: resetPassword
       tags:
         - user
       requestBody:
         required: true
-        description: User's email
+        description: User email
         content:
           application/json:
             schema:
@@ -109,13 +187,13 @@ paths:
 
   /user/changePassword:
     post:
-      summary: Change user's password
+      summary: Change user password
       operationId: changePassword
       tags:
         - user
       requestBody:
         required: true
-        description: User's old and new password
+        description: User old and new password
         content:
           application/json:
             schema:
@@ -151,7 +229,7 @@ paths:
       parameters:
         - in: path
           name: id
-          description: User's ID
+          description: User ID
           required: true
           schema:
             type: integer
@@ -163,6 +241,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserApiModel'
+
+  /leaveType/getAll:
+    get:
+      summary: Get all leave types
+      operationId: getAllLeaveTypes
+      tags:
+        - leaveType
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaveTypeApiModel'
+
+  /leaveType/{id}:
+    get:
+      summary: Get leave type by ID
+      operationId: getLeaveTypeById
+      tags:
+        - leaveType
+      parameters:
+        - in: path
+          name: id
+          description: Leave type ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveTypeApiModel'
 
   /login:
     post:
@@ -287,6 +403,50 @@ components:
           type: string
         newPassword:
           type: string
+
+    LeaveTypeApiModel:
+      type: object
+      required:
+        - id
+        - name
+        - approvalNeeded
+        - limited
+        - halfDayAllowed
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        approvalNeeded:
+          type: boolean
+          default: false
+        limited:
+          type: boolean
+          default: false
+        halfDayAllowed:
+          type: boolean
+          default: false
+
+    LeaveTypeCreateApiModel:
+      type: object
+      required:
+        - name
+        - approvalNeeded
+        - limited
+        - halfDayAllowed
+      properties:
+        name:
+          type: string
+        approvalNeeded:
+          type: boolean
+          default: false
+        limited:
+          type: boolean
+          default: false
+        halfDayAllowed:
+          type: boolean
+          default: false
 
 security:
   - bearerAuth: []
