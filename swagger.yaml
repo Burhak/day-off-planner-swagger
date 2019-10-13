@@ -18,7 +18,7 @@ paths:
         - admin
       requestBody:
         required: true
-        description: Name and email of new user
+        description: Object of user to be created
         content:
           application/json:
             schema:
@@ -44,6 +44,7 @@ paths:
       parameters:
         - in: path
           name: id
+          description: ID of the user to be deleted
           required: true
           schema:
             type: integer
@@ -51,6 +52,37 @@ paths:
       responses:
         '200':
           description: OK
+        '403':
+          description: Not an admin
+        '404':
+          description: Not found
+    put:
+      summary: Update existing user
+      operationId: updateUser
+      tags:
+        - admin
+      parameters:
+        - in: path
+          name: id
+          description: ID of the user to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        description: Object of user to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateApiModel'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApiModel'
         '403':
           description: Not an admin
         '404':
@@ -92,7 +124,7 @@ paths:
         '200':
           description: OK
         '403':
-          description: Invalid old password supplied
+          description: Invalid password
 
   /user/getAll:
     get:
@@ -112,13 +144,14 @@ paths:
 
   /user/{id}:
     get:
-      summary: Get user by id
+      summary: Get user by ID
       operationId: getUserById
       tags:
         - user
       parameters:
         - in: path
           name: id
+          description: User's ID
           required: true
           schema:
             type: integer
@@ -152,7 +185,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserLoginResponseApiModel'
         '403':
-          description: Invalid email or password supplied
+          description: Invalid email or password
 
 components:
   securitySchemes:
@@ -199,6 +232,7 @@ components:
         - firstName
         - lastName
         - email
+        - admin
       properties:
         firstName:
           type: string
