@@ -24,7 +24,7 @@ paths:
             schema:
               $ref: '#/components/schemas/UserCreateApiModel'
       responses:
-        '200':
+        '201':
           description: OK
           content:
             application/json:
@@ -102,7 +102,7 @@ paths:
             schema:
               $ref: '#/components/schemas/LeaveTypeCreateApiModel'
       responses:
-        '200':
+        '201':
           description: OK
           content:
             application/json:
