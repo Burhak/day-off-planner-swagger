@@ -22,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserApiModel'
+              $ref: '#/components/schemas/UserCreateApiModel'
       responses:
         '201':
           description: Created
@@ -75,7 +75,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserApiModel'
+              $ref: '#/components/schemas/UserCreateApiModel'
       responses:
         '200':
           description: OK
@@ -100,7 +100,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LeaveTypeApiModel'
+              $ref: '#/components/schemas/LeaveTypeCreateApiModel'
       responses:
         '201':
           description: Created
@@ -153,7 +153,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LeaveTypeApiModel'
+              $ref: '#/components/schemas/LeaveTypeCreateApiModel'
       responses:
         '200':
           description: OK
@@ -346,6 +346,33 @@ components:
           readOnly: true
         firstName:
           type: string
+          readOnly: true
+        lastName:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        supervisor:
+          type: integer
+          format: int64
+          readOnly: true
+        admin:
+          type: boolean
+          default: false
+          readOnly: true
+
+    UserCreateApiModel:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - admin
+      properties:
+        firstName:
+          type: string
         lastName:
           type: string
         email:
@@ -379,6 +406,7 @@ components:
       properties:
         token:
           type: string
+          readOnly: true
         user:
           $ref: '#/components/schemas/UserApiModel'
 
@@ -419,6 +447,30 @@ components:
           readOnly: true
         name:
           type: string
+          readOnly: true
+        approvalNeeded:
+          type: boolean
+          default: false
+          readOnly: true
+        limited:
+          type: boolean
+          default: false
+          readOnly: true
+        halfDayAllowed:
+          type: boolean
+          default: false
+          readOnly: true
+
+    LeaveTypeCreateApiModel:
+      type: object
+      required:
+        - name
+        - approvalNeeded
+        - limited
+        - halfDayAllowed
+      properties:
+        name:
+          type: string
         approvalNeeded:
           type: boolean
           default: false
@@ -428,6 +480,63 @@ components:
         halfDayAllowed:
           type: boolean
           default: false
+
+    LeaveRequestApiModel:
+      type: object
+      required:
+        - id
+        - leaveType
+        - user
+        - fromDate
+        - toDate
+        - status
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        leaveType:
+          type: integer
+          format: int64
+          readOnly: true
+        user:
+          type: integer
+          format: int64
+          readOnly: true
+        fromDate:
+          type: string
+          format: date-time
+          readOnly: true
+        toDate:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          type: string
+          enum: [APPROVED, REJECTED, PENDING, CANCELLED]
+          readOnly: true
+
+    LeaveRequestCreateApiModel:
+      type: object
+      required:
+        - leaveType
+        - user
+        - fromDate
+        - toDate
+      properties:
+        leaveType:
+          type: integer
+          format: int64
+        user:
+          type: integer
+          format: int64
+        fromDate:
+          type: string
+          format: date-time
+        toDate:
+          type: string
+          format: date-time
+
 
 security:
   - bearerAuth: []
