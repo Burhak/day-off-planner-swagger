@@ -204,6 +204,20 @@ paths:
         '403':
           description: Invalid password
 
+  /user/me:
+    get:
+      summary: Get currently logged user
+      operationId: getLoggedUser
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApiModel'
+
   /user/getAll:
     get:
       summary: Get all users
