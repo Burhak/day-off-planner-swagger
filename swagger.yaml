@@ -531,7 +531,7 @@ components:
         - leaveType
         - user
         - fromDate
-        - toDate
+        - toDate 
         - status
       properties:
         id:
