@@ -366,12 +366,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    oAuthNoScopes: # To generate Authorization header in Angular
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://api.example.com/oauth2/authorize
-          scopes: {}
 
   schemas:
     UserApiModel:
@@ -531,7 +525,7 @@ components:
         - leaveType
         - user
         - fromDate
-        - toDate 
+        - toDate
         - status
       properties:
         id:
@@ -583,4 +577,3 @@ components:
 
 security:
   - bearerAuth: []
-  - oAuthNoScopes: [] # To generate Authorization header in Angular
