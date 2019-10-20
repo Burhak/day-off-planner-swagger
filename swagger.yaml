@@ -444,6 +444,13 @@ components:
         token:
           type: string
           readOnly: true
+        expiresAt:
+          type: string
+          format: date-time
+          readOnly: true
+        tokenType:
+          type: string
+          readOnly: true
         user:
           $ref: '#/components/schemas/UserApiModel'
 
