@@ -357,8 +357,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserLoginResponseApiModel'
-        '403':
+        '401':
           description: Invalid email or password
+
+  /logout:
+    post:
+      summary: Log user out
+      operationId: logoutUser
+      tags:
+        - auth
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid access token
 
 components:
   securitySchemes:
