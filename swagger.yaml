@@ -439,6 +439,8 @@ components:
       type: object
       required:
         - token
+        - expiresAt
+        - tokenType
         - user
       properties:
         token:
