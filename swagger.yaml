@@ -497,7 +497,6 @@ components:
         - name
         - approvalNeeded
         - limited
-        - halfDayAllowed
       properties:
         id:
           type: string
@@ -514,10 +513,6 @@ components:
           type: boolean
           default: false
           readOnly: true
-        halfDayAllowed:
-          type: boolean
-          default: false
-          readOnly: true
 
     LeaveTypeCreateApiModel:
       type: object
@@ -525,7 +520,6 @@ components:
         - name
         - approvalNeeded
         - limited
-        - halfDayAllowed
       properties:
         name:
           type: string
@@ -533,9 +527,6 @@ components:
           type: boolean
           default: false
         limited:
-          type: boolean
-          default: false
-        halfDayAllowed:
           type: boolean
           default: false
 
