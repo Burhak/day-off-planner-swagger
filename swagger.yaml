@@ -578,14 +578,10 @@ components:
       type: object
       required:
         - leaveType
-        - user
         - fromDate
         - toDate
       properties:
         leaveType:
-          type: string
-          format: uuid
-        user:
           type: string
           format: uuid
         fromDate:
