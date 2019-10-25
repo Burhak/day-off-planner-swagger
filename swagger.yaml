@@ -497,6 +497,7 @@ components:
         - name
         - approvalNeeded
         - limited
+        - defaultLimitHours
       properties:
         id:
           type: string
@@ -512,6 +513,9 @@ components:
         limited:
           type: boolean
           default: false
+          readOnly: true
+        defaultLimitHours:
+          type: integer
           readOnly: true
 
     LeaveTypeCreateApiModel:
@@ -529,6 +533,8 @@ components:
         limited:
           type: boolean
           default: false
+        defaultLimitHours:
+          type: integer
 
     LeaveRequestApiModel:
       type: object
