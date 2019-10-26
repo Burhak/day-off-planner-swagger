@@ -388,6 +388,7 @@ components:
         - lastName
         - email
         - admin
+        - jobDescription
       properties:
         id:
           type: string
@@ -411,6 +412,12 @@ components:
           type: boolean
           default: false
           readOnly: true
+        jobDescription:
+          type: string
+          readOnly: true
+        phone:
+          type: string
+          readOnly: true
 
     UserCreateApiModel:
       type: object
@@ -419,6 +426,7 @@ components:
         - lastName
         - email
         - admin
+        - jobDescription
       properties:
         firstName:
           type: string
@@ -433,6 +441,10 @@ components:
         admin:
           type: boolean
           default: false
+        jobDescription:
+          type: string
+        phone:
+          type: string
 
     UserLoginApiModel:
       type: object
