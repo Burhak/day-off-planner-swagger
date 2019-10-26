@@ -496,8 +496,6 @@ components:
         - id
         - name
         - approvalNeeded
-        - limited
-        - defaultLimitHours
       properties:
         id:
           type: string
@@ -510,11 +508,10 @@ components:
           type: boolean
           default: false
           readOnly: true
-        limited:
-          type: boolean
-          default: false
+        limit:
+          type: integer
           readOnly: true
-        defaultLimitHours:
+        carryover:
           type: integer
           readOnly: true
 
@@ -530,10 +527,9 @@ components:
         approvalNeeded:
           type: boolean
           default: false
-        limited:
-          type: boolean
-          default: false
-        defaultLimitHours:
+        limit:
+          type: integer
+        carryover:
           type: integer
 
     LeaveRequestApiModel:
