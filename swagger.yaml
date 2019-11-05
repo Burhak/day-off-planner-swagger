@@ -1,601 +1,627 @@
-openapi: 3.0.0
-
-# Added by API Auto Mocking Plugin
-servers:
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/Burhak/DayOffPlanner/1.0.0
-
-info:
-  title: Evolveum Day Off Planner API
-  version: '1.0.0'
-
-paths:
-  /admin/user:
-    post:
-      summary: Create new user
-      operationId: createUser
-      tags:
-        - admin
-      requestBody:
-        required: true
-        description: Object of user to be created
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserCreateApiModel'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserApiModel'
-        '403':
-          description: Not an admin
-        '409':
-          description: Given email already exists
-
-  /admin/user/{id}:
-    delete:
-      summary: Delete existing user
-      operationId: deleteUser
-      tags:
-        - admin
-      parameters:
-        - in: path
-          name: id
-          description: ID of the user to be deleted
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-        '403':
-          description: Not an admin
-        '404':
-          description: Not found
-    put:
-      summary: Update existing user
-      operationId: updateUser
-      tags:
-        - admin
-      parameters:
-        - in: path
-          name: id
-          description: ID of the user to be updated
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        description: Object of user to be updated
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserCreateApiModel'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserApiModel'
-        '403':
-          description: Not an admin
-        '404':
-          description: Not found
-
-  /admin/leaveType:
-    post:
-      summary: Create new leave type
-      operationId: createLeaveType
-      tags:
-        - admin
-      requestBody:
-        required: true
-        description: Object of leave type to be created
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LeaveTypeCreateApiModel'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LeaveTypeApiModel'
-        '403':
-          description: Not an admin
-        '409':
-          description: Given name already exists
-
-  /admin/leaveType/{id}:
-    delete:
-      summary: Delete existing leave type
-      operationId: deleteLeaveType
-      tags:
-        - admin
-      parameters:
-        - in: path
-          name: id
-          description: ID of the leave type to be deleted
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-        '403':
-          description: Not an admin
-        '404':
-          description: Not found
-    put:
-      summary: Update existing leave type
-      operationId: updateLeaveType
-      tags:
-        - admin
-      parameters:
-        - in: path
-          name: id
-          description: ID of the leave type to be updated
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        description: Object of leave type to be updated
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LeaveTypeCreateApiModel'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LeaveTypeApiModel'
-        '403':
-          description: Not an admin
-        '404':
-          description: Not found
-
-  /user/resetPassword:
-    post:
-      summary: Reset user password
-      operationId: resetPassword
-      tags:
-        - user
-      requestBody:
-        required: true
-        description: User email
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PasswordResetApiModel'
-      responses:
-        '202':
-          description: Accepted
-        '404':
-          description: Not found
-
-  /user/changePassword:
-    post:
-      summary: Change user password
-      operationId: changePassword
-      tags:
-        - user
-      requestBody:
-        required: true
-        description: User old and new password
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PasswordChangeApiModel'
-      responses:
-        '200':
-          description: OK
-        '403':
-          description: Invalid password
-
-  /user/me:
-    get:
-      summary: Get currently logged user
-      operationId: getLoggedUser
-      tags:
-        - user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserApiModel'
-
-  /user/getAll:
-    get:
-      summary: Get all users
-      operationId: getAllUsers
-      tags:
-        - user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UserApiModel'
-
-  /user/{id}:
-    get:
-      summary: Get user by ID
-      operationId: getUserById
-      tags:
-        - user
-      parameters:
-        - in: path
-          name: id
-          description: User ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserApiModel'
-
-  /leaveType/getAll:
-    get:
-      summary: Get all leave types
-      operationId: getAllLeaveTypes
-      tags:
-        - leaveType
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LeaveTypeApiModel'
-
-  /leaveType/{id}:
-    get:
-      summary: Get leave type by ID
-      operationId: getLeaveTypeById
-      tags:
-        - leaveType
-      parameters:
-        - in: path
-          name: id
-          description: Leave type ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LeaveTypeApiModel'
-
-  /leave:
-    post:
-      summary: Create new leave request
-      operationId: createLeaveRequest
-      tags:
-        - leave
-      requestBody:
-        required: true
-        description: Object of leave request to be created
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LeaveRequestCreateApiModel'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LeaveRequestApiModel'
-
-  /leave/{id}:
-    get:
-      summary: Get leave request by ID
-      operationId: getLeaveRequestById
-      tags:
-        - leave
-      parameters:
-        - in: path
-          name: id
-          description: Leave request ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LeaveRequestApiModel'
-
-  /login:
-    post:
-      summary: Log user into the system
-      operationId: loginUser
-      tags:
-        - auth
-      requestBody:
-        required: true
-        description: Email and password for login
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserLoginApiModel'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserLoginResponseApiModel'
-        '401':
-          description: Invalid email or password
-
-  /logout:
-    post:
-      summary: Log user out
-      operationId: logoutUser
-      tags:
-        - auth
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid access token
-
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
-  schemas:
-    UserApiModel:
-      type: object
-      required:
-        - id
-        - firstName
-        - lastName
-        - email
-        - admin
-        - jobDescription
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        firstName:
-          type: string
-          readOnly: true
-        lastName:
-          type: string
-          readOnly: true
-        email:
-          type: string
-          format: email
-          readOnly: true
-        supervisor:
-          type: string
-          format: uuid
-          readOnly: true
-        admin:
-          type: boolean
-          default: false
-          readOnly: true
-        jobDescription:
-          type: string
-          readOnly: true
-        phone:
-          type: string
-          readOnly: true
-
-    UserCreateApiModel:
-      type: object
-      required:
-        - firstName
-        - lastName
-        - email
-        - admin
-        - jobDescription
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        supervisor:
-          type: string
-          format: uuid
-        admin:
-          type: boolean
-          default: false
-        jobDescription:
-          type: string
-        phone:
-          type: string
-
-    UserLoginApiModel:
-      type: object
-      required:
-        - email
-        - password
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-          format: password
-
-    UserLoginResponseApiModel:
-      type: object
-      required:
-        - token
-        - expiresAt
-        - tokenType
-        - user
-      properties:
-        token:
-          type: string
-          readOnly: true
-        expiresAt:
-          type: string
-          format: date-time
-          readOnly: true
-        tokenType:
-          type: string
-          readOnly: true
-        user:
-          $ref: '#/components/schemas/UserApiModel'
-
-    PasswordResetApiModel:
-      type: object
-      required:
-        - email
-      properties:
-        email:
-          type: string
-          format: email
-
-    PasswordChangeApiModel:
-      type: object
-      required:
-        - oldPassword
-        - newPassword
-      properties:
-        oldPassword:
-          type: string
-          format: password
-        newPassword:
-          type: string
-          format: password
-
-    LeaveTypeApiModel:
-      type: object
-      required:
-        - id
-        - name
-        - approvalNeeded
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        approvalNeeded:
-          type: boolean
-          default: false
-          readOnly: true
-        limit:
-          type: integer
-          readOnly: true
-        carryover:
-          type: integer
-          readOnly: true
-
-    LeaveTypeCreateApiModel:
-      type: object
-      required:
-        - name
-        - approvalNeeded
-        - limited
-      properties:
-        name:
-          type: string
-        approvalNeeded:
-          type: boolean
-          default: false
-        limit:
-          type: integer
-        carryover:
-          type: integer
-
-    LeaveRequestApiModel:
-      type: object
-      required:
-        - id
-        - leaveType
-        - user
-        - fromDate
-        - toDate
-        - status
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        leaveType:
-          type: string
-          format: uuid
-          readOnly: true
-        user:
-          type: string
-          format: uuid
-          readOnly: true
-        fromDate:
-          type: string
-          format: date-time
-          readOnly: true
-        toDate:
-          type: string
-          format: date-time
-          readOnly: true
-        status:
-          type: string
-          enum: [APPROVED, REJECTED, PENDING, CANCELLED]
-          readOnly: true
-
-    LeaveRequestCreateApiModel:
-      type: object
-      required:
-        - leaveType
-        - fromDate
-        - toDate
-      properties:
-        leaveType:
-          type: string
-          format: uuid
-        fromDate:
-          type: string
-          format: date-time
-        toDate:
-          type: string
-          format: date-time
-
-
-security:
+openapi: 3.0.0 
+ 
+# Added by API Auto Mocking Plugin 
+servers: 
+  - description: SwaggerHub API Auto Mocking 
+    url: https://virtserver.swaggerhub.com/Burhak/DayOffPlanner/1.0.0 
+ 
+info: 
+  title: Evolveum Day Off Planner API 
+  version: '1.0.0' 
+ 
+paths: 
+  /admin/user: 
+    post: 
+      summary: Create new user 
+      operationId: createUser 
+      tags: 
+        - admin 
+      requestBody: 
+        required: true 
+        description: Object of user to be created 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/UserCreateApiModel' 
+      responses: 
+        '201': 
+          description: Created 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/UserApiModel' 
+        '403': 
+          description: Not an admin 
+        '409': 
+          description: Given email already exists 
+ 
+  /admin/user/{id}: 
+    delete: 
+      summary: Delete existing user 
+      operationId: deleteUser 
+      tags: 
+        - admin 
+      parameters: 
+        - in: path 
+          name: id 
+          description: ID of the user to be deleted 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      responses: 
+        '200': 
+          description: OK 
+        '403': 
+          description: Not an admin 
+        '404': 
+          description: Not found 
+    put: 
+      summary: Update existing user 
+      operationId: updateUser 
+      tags: 
+        - admin 
+      parameters: 
+        - in: path 
+          name: id 
+          description: ID of the user to be updated 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      requestBody: 
+        required: true 
+        description: Object of user to be updated 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/UserCreateApiModel' 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/UserApiModel' 
+        '403': 
+          description: Not an admin 
+        '404': 
+          description: Not found 
+ 
+  /admin/leaveType: 
+    post: 
+      summary: Create new leave type 
+      operationId: createLeaveType 
+      tags: 
+        - admin 
+      requestBody: 
+        required: true 
+        description: Object of leave type to be created 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/LeaveTypeCreateApiModel' 
+      responses: 
+        '201': 
+          description: Created 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/LeaveTypeApiModel' 
+        '403': 
+          description: Not an admin 
+        '409': 
+          description: Given name already exists 
+ 
+  /admin/leaveType/{id}: 
+    delete: 
+      summary: Delete existing leave type 
+      operationId: deleteLeaveType 
+      tags: 
+        - admin 
+      parameters: 
+        - in: path 
+          name: id 
+          description: ID of the leave type to be deleted 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      responses: 
+        '200': 
+          description: OK 
+        '403': 
+          description: Not an admin 
+        '404': 
+          description: Not found 
+    put: 
+      summary: Update existing leave type 
+      operationId: updateLeaveType 
+      tags: 
+        - admin 
+      parameters: 
+        - in: path 
+          name: id 
+          description: ID of the leave type to be updated 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      requestBody: 
+        required: true 
+        description: Object of leave type to be updated 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/LeaveTypeCreateApiModel' 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/LeaveTypeApiModel' 
+        '403': 
+          description: Not an admin 
+        '404': 
+          description: Not found 
+ 
+  /user/resetPassword: 
+    post: 
+      summary: Reset user password 
+      operationId: resetPassword 
+      tags: 
+        - user 
+      requestBody: 
+        required: true 
+        description: User email 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PasswordResetApiModel' 
+      responses: 
+        '202': 
+          description: Accepted 
+        '404': 
+          description: Not found 
+ 
+  /user/changePassword: 
+    post: 
+      summary: Change user password 
+      operationId: changePassword 
+      tags: 
+        - user 
+      requestBody: 
+        required: true 
+        description: User old and new password 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PasswordChangeApiModel' 
+      responses: 
+        '200': 
+          description: OK 
+        '403': 
+          description: Invalid password 
+ 
+  /user/me: 
+    get: 
+      summary: Get currently logged user 
+      operationId: getLoggedUser 
+      tags: 
+        - user 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/UserApiModel' 
+ 
+  /user/getAll: 
+    get: 
+      summary: Get all users 
+      operationId: getAllUsers 
+      tags: 
+        - user 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                type: array 
+                items: 
+                  $ref: '#/components/schemas/UserApiModel' 
+ 
+  /user/{id}: 
+    get: 
+      summary: Get user by ID 
+      operationId: getUserById 
+      tags: 
+        - user 
+      parameters: 
+        - in: path 
+          name: id 
+          description: User ID 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/UserApiModel' 
+ 
+  /leaveType/getAll: 
+    get: 
+      summary: Get all leave types 
+      operationId: getAllLeaveTypes 
+      tags: 
+        - leaveType 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                type: array 
+                items: 
+                  $ref: '#/components/schemas/LeaveTypeApiModel' 
+ 
+  /leaveType/{id}: 
+    get: 
+      summary: Get leave type by ID 
+      operationId: getLeaveTypeById 
+      tags: 
+        - leaveType 
+      parameters: 
+        - in: path 
+          name: id 
+          description: Leave type ID 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/LeaveTypeApiModel' 
+ 
+  /leave: 
+    post: 
+      summary: Create new leave request 
+      operationId: createLeaveRequest 
+      tags: 
+        - leave 
+      requestBody: 
+        required: true 
+        description: Object of leave request to be created 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/LeaveRequestCreateApiModel' 
+      responses: 
+        '201': 
+          description: Created 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/LeaveRequestApiModel' 
+ 
+  /leave/{id}: 
+    get: 
+      summary: Get leave request by ID 
+      operationId: getLeaveRequestById 
+      tags: 
+        - leave 
+      parameters: 
+        - in: path 
+          name: id 
+          description: Leave request ID 
+          required: true 
+          schema: 
+            type: string 
+            format: uuid 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/LeaveRequestApiModel' 
+ 
+  /login: 
+    post: 
+      summary: Log user into the system 
+      operationId: loginUser 
+      tags: 
+        - auth 
+      requestBody: 
+        required: true 
+        description: Email and password for login 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/UserLoginApiModel' 
+      responses: 
+        '200': 
+          description: OK 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/UserLoginResponseApiModel' 
+        '401': 
+          description: Invalid email or password 
+ 
+  /logout: 
+    post: 
+      summary: Log user out 
+      operationId: logoutUser 
+      tags: 
+        - auth 
+      responses: 
+        '200': 
+          description: OK 
+        '401': 
+          description: Invalid access token 
+ 
+components: 
+  securitySchemes: 
+    bearerAuth: 
+      type: http 
+      scheme: bearer 
+      bearerFormat: JWT 
+ 
+  schemas: 
+ 
+    ErrorApiModel: 
+      type: object 
+      required: 
+        - timestamp 
+        - status 
+        - error 
+        - message 
+        - path 
+      properties: 
+        timestamp: 
+          type: string 
+          format: date-time 
+          readOnly: true 
+        status: 
+          type: integer 
+          readOnly: true 
+        error: 
+          type: string 
+          readOnly: true 
+        message: 
+          type: string 
+          readOnly: true 
+        path: 
+          type: string 
+          readOnly: true 
+ 
+    UserApiModel: 
+      type: object 
+      required: 
+        - id 
+        - firstName 
+        - lastName 
+        - email 
+        - admin 
+        - jobDescription 
+      properties: 
+        id: 
+          type: string 
+          format: uuid 
+          readOnly: true 
+        firstName: 
+          type: string 
+          readOnly: true 
+        lastName: 
+          type: string 
+          readOnly: true 
+        email: 
+          type: string 
+          format: email 
+          readOnly: true 
+        supervisor: 
+          type: string 
+          format: uuid 
+          readOnly: true 
+        admin: 
+          type: boolean 
+          default: false 
+          readOnly: true 
+        jobDescription: 
+          type: string 
+          readOnly: true 
+        phone: 
+          type: string 
+          readOnly: true 
+ 
+    UserCreateApiModel: 
+      type: object 
+      required: 
+        - firstName 
+        - lastName 
+        - email 
+        - admin 
+        - jobDescription 
+      properties: 
+        firstName: 
+          type: string 
+        lastName: 
+          type: string 
+        email: 
+          type: string 
+          format: email 
+        supervisor: 
+          type: string 
+          format: uuid 
+        admin: 
+          type: boolean 
+          default: false 
+        jobDescription: 
+          type: string 
+        phone: 
+          type: string 
+ 
+    UserLoginApiModel: 
+      type: object 
+      required: 
+        - email 
+        - password 
+      properties: 
+        email: 
+          type: string 
+          format: email 
+        password: 
+          type: string 
+          format: password 
+ 
+    UserLoginResponseApiModel: 
+      type: object 
+      required: 
+        - token 
+        - expiresAt 
+        - tokenType 
+        - user 
+      properties: 
+        token: 
+          type: string 
+          readOnly: true 
+        expiresAt: 
+          type: string 
+          format: date-time 
+          readOnly: true 
+        tokenType: 
+          type: string 
+          readOnly: true 
+        user: 
+          $ref: '#/components/schemas/UserApiModel' 
+ 
+    PasswordResetApiModel: 
+      type: object 
+      required: 
+        - email 
+      properties: 
+        email: 
+          type: string 
+          format: email 
+ 
+    PasswordChangeApiModel: 
+      type: object 
+      required: 
+        - oldPassword 
+        - newPassword 
+      properties: 
+        oldPassword: 
+          type: string 
+          format: password 
+        newPassword: 
+          type: string 
+          format: password 
+ 
+    LeaveTypeApiModel: 
+      type: object 
+      required: 
+        - id 
+        - name 
+        - approvalNeeded 
+      properties: 
+        id: 
+          type: string 
+          format: uuid 
+          readOnly: true 
+        name: 
+          type: string 
+          readOnly: true 
+        approvalNeeded: 
+          type: boolean 
+          default: false 
+          readOnly: true 
+        limit: 
+          type: integer 
+          readOnly: true 
+        carryover: 
+          type: integer 
+          readOnly: true 
+ 
+    LeaveTypeCreateApiModel: 
+      type: object 
+      required: 
+        - name 
+        - approvalNeeded 
+      properties: 
+        name: 
+          type: string 
+        approvalNeeded: 
+          type: boolean 
+          default: false 
+        limit: 
+          type: integer 
+        carryover: 
+          type: integer 
+ 
+    LeaveRequestApiModel: 
+      type: object 
+      required: 
+        - id 
+        - leaveType 
+        - user 
+        - fromDate 
+        - toDate 
+        - status 
+      properties: 
+        id: 
+          type: string 
+          format: uuid 
+          readOnly: true 
+        leaveType: 
+          type: string 
+          format: uuid 
+          readOnly: true 
+        user: 
+          type: string 
+          format: uuid 
+          readOnly: true 
+        fromDate: 
+          type: string 
+          format: date-time 
+          readOnly: true 
+        toDate: 
+          type: string 
+          format: date-time 
+          readOnly: true 
+        status: 
+          type: string 
+          enum: [APPROVED, REJECTED, PENDING, CANCELLED] 
+          readOnly: true 
+ 
+    LeaveRequestCreateApiModel: 
+      type: object 
+      required: 
+        - leaveType 
+        - fromDate 
+        - toDate 
+      properties: 
+        leaveType: 
+          type: string 
+          format: uuid 
+        fromDate: 
+          type: string 
+          format: date-time 
+        toDate: 
+          type: string 
+          format: date-time 
+ 
+ 
+security: 
   - bearerAuth: []
