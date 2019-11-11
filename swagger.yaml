@@ -382,6 +382,35 @@ paths:
         '404':
           description: Not found
 
+  /user/carryover/{leaveTypeId}:
+    get:
+      summary: Get user carryover for specified leave type and year
+      operationId: getCarryover
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: leaveTypeId
+          description: ID of the leave type
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: year
+          description: Year (current year if not specified)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarryoverApiModel'
+        '404':
+          description: Not found
+
   /leaveType/getAll:
     get:
       summary: Get all leave types
@@ -769,6 +798,29 @@ components:
       properties:
         limit:
           type: integer
+
+    CarryoverApiModel:
+      type: object
+      required:
+        - user
+        - leaveType
+        - year
+        - carryover
+      properties:
+        user:
+          type: string
+          format: uuid
+          readOnly: true
+        leaveType:
+          type: string
+          format: uuid
+          readOnly: true
+        year:
+          type: integer
+          readOnly: true
+        carryover:
+          type: integer
+          readOnly: true
 
     LeaveRequestApiModel:
       type: object
