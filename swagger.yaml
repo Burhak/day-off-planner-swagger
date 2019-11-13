@@ -618,6 +618,7 @@ components:
         - email
         - admin
         - jobDescription
+        - approvers
       properties:
         id:
           type: string
@@ -647,6 +648,12 @@ components:
         phone:
           type: string
           readOnly: true
+        approvers:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
 
     UserCreateApiModel:
       type: object
@@ -656,6 +663,7 @@ components:
         - email
         - admin
         - jobDescription
+        - approvers
       properties:
         firstName:
           type: string
@@ -674,6 +682,11 @@ components:
           type: string
         phone:
           type: string
+        approvers:
+          type: array
+          items:
+            type: string
+            format: uuid
 
     UserLoginApiModel:
       type: object
