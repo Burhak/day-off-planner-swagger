@@ -537,7 +537,35 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/LeaveRequestWithApprovalsApiModel'
+        '403':
+          description: Only approvers can see datails
+        '404':
+          description: Not found
+
+  /leave/{id}/cancel:
+    post:
+      summary: Cancel leave request with given ID
+      operationId: cancelLeaveRequest
+      tags:
+        - leave
+      parameters:
+        - in: path
+          name: id
+          description: Leave request ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/LeaveRequestApiModel'
+        '403':
+          description: Only requesting user can cancel
         '404':
           description: Not found
 
@@ -567,7 +595,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeaveRequestApprovalApiModel'
+                $ref: '#/components/schemas/LeaveRequestWithApprovalsApiModel'
+        '403':
+          description: Only approvers / already voted
         '404':
           description: Not found
 
@@ -597,7 +627,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeaveRequestApiModel'
+                $ref: '#/components/schemas/LeaveRequestWithApprovalsApiModel'
+        '403':
+          description: Only supervisor can force approve
         '404':
           description: Not found
 
@@ -1000,6 +1032,47 @@ components:
         status:
           type: string
           enum: [APPROVED, REJECTED, PENDING, CANCELLED]
+          readOnly: true
+
+    LeaveRequestWithApprovalsApiModel:
+      type: object
+      required:
+        - id
+        - leaveType
+        - user
+        - fromDate
+        - toDate
+        - status
+        - approvals
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        leaveType:
+          type: string
+          format: uuid
+          readOnly: true
+        user:
+          type: string
+          format: uuid
+          readOnly: true
+        fromDate:
+          type: string
+          format: date-time
+          readOnly: true
+        toDate:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          type: string
+          enum: [APPROVED, REJECTED, PENDING, CANCELLED]
+          readOnly: true
+        approvals:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveRequestApprovalApiModel'
           readOnly: true
 
     LeaveRequestCreateApiModel:
