@@ -1,10 +1,5 @@
 openapi: 3.0.0
 
-# Added by API Auto Mocking Plugin
-servers:
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/Burhak/DayOffPlanner/1.0.0
-
 info:
   title: Evolveum Day Off Planner API
   version: '1.0.0'
@@ -573,6 +568,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveRequestApprovalApiModel'
+        '404':
+          description: Not found
+
+  /leave/{id}/forceApprove:
+    post:
+      summary: FORCE approve/reject leave request with given ID (only supervisor)
+      operationId: forceApproveLeaveRequest
+      tags:
+        - leave
+      parameters:
+        - in: path
+          name: id
+          description: Leave request ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: approve
+          description: Whether to approve (true) or reject (false) leave request
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveRequestApiModel'
         '404':
           description: Not found
 
