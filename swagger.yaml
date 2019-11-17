@@ -1042,7 +1042,6 @@ components:
       properties:
         leaveRequest:
           $ref: '#/components/schemas/LeaveRequestApiModel'
-          readOnly: true
         approvals:
           type: array
           items:
