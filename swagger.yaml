@@ -498,6 +498,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypeApiModel'
+        '404':
+          description: Not found
 
   /leave:
     post:
@@ -541,6 +543,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveRequestApiModel'
+        '404':
+          description: Not found
+
+  /leave/{id}/approve:
+    post:
+      summary: Approve/reject leave request with given ID
+      operationId: approveLeaveRequest
+      tags:
+        - leave
+      parameters:
+        - in: path
+          name: id
+          description: Leave request ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: approve
+          description: Whether to approve (true) or reject (false) leave request
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveRequestApprovalApiModel'
+        '404':
+          description: Not found
 
   /setting/getAll:
     get:
@@ -960,6 +994,23 @@ components:
           type: string
           format: date-time
 
+    LeaveRequestApprovalApiModel:
+      type: object
+      required:
+        - leaveRequest
+        - approver
+      properties:
+        leaveRequest:
+          type: string
+          format: uuid
+          readOnly: true
+        approver:
+          type: string
+          format: uuid
+          readOnly: true
+        approved:
+          type: boolean
+          readOnly: true
 
 security:
   - bearerAuth: []
