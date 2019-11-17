@@ -425,6 +425,42 @@ paths:
         '404':
           description: Not found
 
+  /user/{userId}/requestedHours/{leaveTypeId}:
+    get:
+      summary: Get user requested hours for specified leave type and year
+      operationId: getRequestedHours
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: userId
+          description: User ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: leaveTypeId
+          description: ID of the leave type
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: year
+          description: Year (current year if not specified)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestedHoursApiModel'
+        '404':
+          description: Not found
+
   /leaveType/getAll:
     get:
       summary: Get all leave types
@@ -846,6 +882,29 @@ components:
           type: integer
           readOnly: true
         carryover:
+          type: integer
+          readOnly: true
+
+    RequestedHoursApiModel:
+      type: object
+      required:
+        - user
+        - leaveType
+        - year
+        - requestedHours
+      properties:
+        user:
+          type: string
+          format: uuid
+          readOnly: true
+        leaveType:
+          type: string
+          format: uuid
+          readOnly: true
+        year:
+          type: integer
+          readOnly: true
+        requestedHours:
           type: integer
           readOnly: true
 
