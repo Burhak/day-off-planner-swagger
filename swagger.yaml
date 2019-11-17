@@ -358,13 +358,20 @@ paths:
         '404':
           description: Not found
 
-  /user/limit/{leaveTypeId}:
+  /user/{userId}/limit/{leaveTypeId}:
     get:
       summary: Get user individual limit
       operationId: getLimit
       tags:
         - user
       parameters:
+        - in: path
+          name: userId
+          description: User ID
+          required: true
+          schema:
+            type: string
+            format: uuid
         - in: path
           name: leaveTypeId
           description: ID of the leave type
@@ -382,13 +389,20 @@ paths:
         '404':
           description: Not found
 
-  /user/carryover/{leaveTypeId}:
+  /user/{userId}/carryover/{leaveTypeId}:
     get:
       summary: Get user carryover for specified leave type and year
       operationId: getCarryover
       tags:
         - user
       parameters:
+        - in: path
+          name: userId
+          description: User ID
+          required: true
+          schema:
+            type: string
+            format: uuid
         - in: path
           name: leaveTypeId
           description: ID of the leave type
