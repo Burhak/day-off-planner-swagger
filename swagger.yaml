@@ -759,6 +759,7 @@ components:
         - email
         - admin
         - jobDescription
+        - approver
         - approvers
       properties:
         id:
@@ -788,6 +789,10 @@ components:
           readOnly: true
         phone:
           type: string
+          readOnly: true
+        approver:
+          type: boolean
+          default: false
           readOnly: true
         approvers:
           type: array
