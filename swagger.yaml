@@ -561,9 +561,33 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/LeaveRequestApiModel'
+        '404':
+          description: Not found
+
+  /leave/{id}/approvals:
+    get:
+      summary: Get leave request with approvals by ID
+      operationId: getLeaveRequestByIdWithApprovals
+      tags:
+        - leave
+      parameters:
+        - in: path
+          name: id
+          description: Leave request ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/LeaveRequestWithApprovalsApiModel'
         '403':
-          description: Only approvers can see datails
+          description: Only approvers can see approvals
         '404':
           description: Not found
 
