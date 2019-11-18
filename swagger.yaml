@@ -353,6 +353,30 @@ paths:
         '404':
           description: Not found
 
+  /user/{id}/isApprover:
+    get:
+      summary: Get if user with given ID is approver/supervisor of some other user
+      operationId: isApprover
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: id
+          description: User ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '404':
+          description: Not found
+
   /user/{userId}/limit/{leaveTypeId}:
     get:
       summary: Get user individual limit
@@ -759,7 +783,6 @@ components:
         - email
         - admin
         - jobDescription
-        - approver
         - approvers
       properties:
         id:
@@ -789,10 +812,6 @@ components:
           readOnly: true
         phone:
           type: string
-          readOnly: true
-        approver:
-          type: boolean
-          default: false
           readOnly: true
         approvers:
           type: array
