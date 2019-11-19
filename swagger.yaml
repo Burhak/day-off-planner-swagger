@@ -541,6 +541,59 @@ paths:
               schema:
                 $ref: '#/components/schemas/LeaveRequestApiModel'
 
+  /leave/filter:
+    get:
+      summary: Filter leave requests
+      operationId: filterLeaveRequests
+      tags:
+        - leave
+      parameters:
+        - in: query
+          name: from
+          description: From date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          description: To date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: status
+          description: List of statuses to include in result (all if not set)
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [APPROVED, REJECTED, PENDING, CANCELLED]
+        - in: query
+          name: users
+          description: List of users to include in result (all if not set)
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+        - in: query
+          name: leaveTypes
+          description: List of leave types to include in result (all if not set)
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaveRequestApiModel'
+
   /leave/{id}:
     get:
       summary: Get leave request by ID
