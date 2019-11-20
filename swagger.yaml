@@ -584,6 +584,14 @@ paths:
             items:
               type: string
               format: uuid
+        - in: query
+          name: approvers
+          description: List of approvers to include in result (all if not set)
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
       responses:
         '200':
           description: OK
