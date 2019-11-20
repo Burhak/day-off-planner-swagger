@@ -678,6 +678,35 @@ paths:
         '404':
           description: Not found
 
+  /leave/{id}/message:
+    post:
+      summary: Add a message to leave request with given ID
+      operationId: addMessage
+      tags:
+        - leave
+      parameters:
+        - in: path
+          name: id
+          description: Leave request ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        description: Message to be added to leave request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveRequestAddMessageApiModel'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveRequestWithApprovalsApiModel'
+
   /leave/{id}/approve:
     post:
       summary: Approve/reject leave request with given ID
@@ -1156,6 +1185,11 @@ components:
           items:
             $ref: '#/components/schemas/LeaveRequestApprovalApiModel'
           readOnly: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveRequestMessageApiModel'
+          readOnly: true
 
     LeaveRequestCreateApiModel:
       type: object
@@ -1190,6 +1224,38 @@ components:
           readOnly: true
         approved:
           type: boolean
+          readOnly: true
+
+    LeaveRequestAddMessageApiModel:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+
+    LeaveRequestMessageApiModel:
+      type: object
+      required:
+        - leaveRequest
+        - approver
+        - message
+        - timestamp
+      properties:
+        leaveRequest:
+          type: string
+          format: uuid
+          readOnly: true
+        approver:
+          type: string
+          format: uuid
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
           readOnly: true
 
 security:
