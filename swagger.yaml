@@ -1241,6 +1241,7 @@ components:
       required:
         - leaveRequest
         - approvals
+        - messages
       properties:
         leaveRequest:
           $ref: '#/components/schemas/LeaveRequestApiModel'
